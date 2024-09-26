@@ -1,7 +1,7 @@
 package tables
 
 import (
-	"modules/internal/models"
+	"mymod/internal/models"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,39 +18,42 @@ type Song struct {
 	Link        string `json:"link" example:"http://whatever"`
 }
 
-func (instance *User) RecordCreate(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
+func (instance *Song) RecordCreate(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
 	return dao.CreateData(instance, db)
 }
-func (instance *User) RecordShow(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
+func (instance *Song) RecordShow(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
 	err := dao.ShowData(instance, db)
 	return err
 }
-func (instance *User) RecordDelete(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
+func (instance *Song) RecordDelete(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
 	return dao.DeleteData(instance, db)
 }
-func (instance *User) RecordUpdate(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
+func (instance *Song) RecordUpdate(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
 	return dao.UpdateData(instance, db)
 }
-func (instance *User) GetId() int {
-	return instance.User_id
+func (instance *Song) GetId() int {
+	return instance.Song_id
 }
 
-func (instance *User) GetQueryId(c *fiber.Ctx) error {
+func (instance *Song) GetQueryId(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Query("id", ""))
 	if err != nil {
 		return err
 	}
-	instance.User_id = id
+	instance.Song_id = id
 	return nil
 }
 
-func (instance *User) GetQueryParams(c *fiber.Ctx) error {
-	instance.Login = c.Query("login", "")
-	instance.Password = c.Query("password", "")
+func (instance *Song) GetQueryParams(c *fiber.Ctx) error {
+	instance.Group = c.Query("group", "")
+	instance.Song = c.Query("song", "")
+	instance.ReleaseDate = c.Query("release_date", "")
+	instance.Text = c.Query("text", "")
+	instance.Link = c.Query("link", "")
 	return nil
 }
 
-func (instance *User) GetBodyParams(c *fiber.Ctx) error {
+func (instance *Song) GetBodyParams(c *fiber.Ctx) error {
 	if err := c.BodyParser(&instance); err != nil {
 		return err
 	}

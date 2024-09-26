@@ -2,7 +2,7 @@ package responses
 
 import (
 	"errors"
-	"modules/internal/models"
+	"mymod/internal/models"
 
 	"github.com/gofiber/fiber/v2"
 )

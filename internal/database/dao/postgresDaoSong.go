@@ -1,26 +1,26 @@
 package dao
 
 import (
-	"modules/internal/models"
-	"modules/internal/models/responses"
-	"modules/internal/models/tables"
+	"mymod/internal/models"
+	"mymod/internal/models/responses"
+	"mymod/internal/models/tables"
 
 	log "github.com/sirupsen/logrus"
 )
 
-// (дао/круд) для таблицы Task. вызывается из соответсвующей таблицы.
+// (дао/круд) для таблицы Song. вызывается из соответсвующей таблицы.
 
-type TaskDao struct{}
+type SongDao struct{}
 
-// функция которая возвращает респонс текущего дао. Нужен чтобы не менять кучу респонсов у новых дао.
-func (currentlDB *TaskDao) curResponse() responses.ResponseTask {
-	return responses.ResponseTask{}
+// функция которая возвращает респонс текущего дао. Нужен чтобы не менять кучу респонсов если будут новые таблицы.
+func (currentlDB *SongDao) curResponse() responses.ResponseSong {
+	return responses.ResponseSong{}
 }
 
-func (currentlDB *TaskDao) CreateData(data models.Table, core models.DatabaseCore) models.Response {
+func (currentlDB *SongDao) CreateData(data models.Table, core models.DatabaseCore) models.Response {
 	log.Debug("dao get = ", data)
 
-	task, resp := currentlDB.getData(data)
+	song, resp := currentlDB.getData(data)
 	if resp != nil {
 		return resp
 	}
@@ -30,7 +30,7 @@ func (currentlDB *TaskDao) CreateData(data models.Table, core models.DatabaseCor
 		return currentlDB.curResponse().InternalError()
 	}
 
-	if result := dbConnect.Instance.Create(&task); result.Error != nil {
+	if result := dbConnect.Instance.Create(&song); result.Error != nil {
 		log.Debug("create record error!")
 		return currentlDB.curResponse().BadCreate()
 	}
@@ -39,21 +39,21 @@ func (currentlDB *TaskDao) CreateData(data models.Table, core models.DatabaseCor
 	return currentlDB.curResponse().GoodCreate()
 }
 
-func (currentlDB *TaskDao) DeleteData(data models.Table, core models.DatabaseCore) models.Response {
+func (currentlDB *SongDao) DeleteData(data models.Table, core models.DatabaseCore) models.Response {
 	log.Debug("dao get = ", data)
 
-	task, resp := currentlDB.getData(data)
+	song, resp := currentlDB.getData(data)
 	if resp != nil {
 		return resp
 	}
-	id := task.GetId()
+	id := song.GetId()
 
 	dbConnect := convertToPostgres(core)
 	if dbConnect == nil {
 		return currentlDB.curResponse().InternalError()
 	}
 
-	result := dbConnect.Instance.Delete(&task, id)
+	result := dbConnect.Instance.Delete(&song, id)
 	if result.RowsAffected == 0 || result.Error != nil {
 		return currentlDB.curResponse().BadDelete()
 	}
@@ -62,10 +62,10 @@ func (currentlDB *TaskDao) DeleteData(data models.Table, core models.DatabaseCor
 	return currentlDB.curResponse().GoodDelete()
 }
 
-func (currentlDB *TaskDao) UpdateData(data models.Table, core models.DatabaseCore) models.Response {
+func (currentlDB *SongDao) UpdateData(data models.Table, core models.DatabaseCore) models.Response {
 	log.Debug("dao get = ", data)
 
-	task, resp := currentlDB.getData(data)
+	song, resp := currentlDB.getData(data)
 	if resp != nil {
 		return resp
 	}
@@ -75,7 +75,7 @@ func (currentlDB *TaskDao) UpdateData(data models.Table, core models.DatabaseCor
 		return currentlDB.curResponse().InternalError()
 	}
 
-	if result := dbConnect.Instance.Updates(&task); result.Error != nil {
+	if result := dbConnect.Instance.Updates(&song); result.Error != nil {
 		log.Debug("update record error!")
 		return currentlDB.curResponse().BadUpdate()
 	}
@@ -84,21 +84,21 @@ func (currentlDB *TaskDao) UpdateData(data models.Table, core models.DatabaseCor
 	return currentlDB.curResponse().GoodUpdate()
 }
 
-func (currentlDB *TaskDao) ShowData(data models.Table, core models.DatabaseCore) models.Response {
+func (currentlDB *SongDao) ShowData(data models.Table, core models.DatabaseCore) models.Response {
 	log.Debug("dao get = ", data)
 
-	task, resp := currentlDB.getData(data)
+	song, resp := currentlDB.getData(data)
 	if resp != nil {
 		return resp
 	}
-	var finded []tables.Task
+	var finded []tables.Song
 
 	dbConnect := convertToPostgres(core)
 	if dbConnect == nil {
 		return currentlDB.curResponse().InternalError()
 	}
 
-	results := dbConnect.Instance.Find(&finded, task)
+	results := dbConnect.Instance.Find(&finded, song)
 	if results.Error != nil || results.RowsAffected == 0 {
 		log.Debug("show record error!")
 		return currentlDB.curResponse().BadShow()
@@ -109,10 +109,10 @@ func (currentlDB *TaskDao) ShowData(data models.Table, core models.DatabaseCore)
 }
 
 // перево интерфейса таблицы в конкретную таблицу
-func (currentlDB *TaskDao) getData(temp models.Table) (tables.Task, models.Response) {
-	task, ok := temp.(*tables.Task)
+func (currentlDB *SongDao) getData(temp models.Table) (tables.Song, models.Response) {
+	task, ok := temp.(*tables.Song)
 	if ok == false {
-		return tables.Task{}, currentlDB.curResponse().InternalError()
+		return tables.Song{}, currentlDB.curResponse().InternalError()
 	}
 	return *task, nil
 }

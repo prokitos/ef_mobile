@@ -3,7 +3,7 @@ package app
 import (
 	"fmt"
 	"log"
-	"modules/internal/transport"
+	"mymod/internal/transport"
 	"time"
 
 	"github.com/gofiber/fiber/v2"

@@ -1,57 +1,57 @@
 package responses
 
 import (
-	"modules/internal/models"
-	"modules/internal/models/tables"
+	"mymod/internal/models"
+	"mymod/internal/models/tables"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-// ответы для таблицы User
+// ответы для таблицы Song
 
-type ResponseUser struct {
+type ResponseSong struct {
 	Description string        `json:"description"        example:"description"`
 	Code        int           `json:"code"               example:"status"`
-	Users       []tables.User `json:"users,omitempty"    example:"...."`
+	Users       []tables.Song `json:"songs,omitempty"    example:"...."`
 }
 
-func (instance ResponseUser) GoodCreate() models.Response {
-	return ResponseBase{}.GoodCreate("user")
+func (instance ResponseSong) GoodCreate() models.Response {
+	return ResponseBase{}.GoodCreate("song")
 }
-func (instance ResponseUser) BadCreate() models.Response {
-	return ResponseBase{}.BadCreate("user")
+func (instance ResponseSong) BadCreate() models.Response {
+	return ResponseBase{}.BadCreate("song")
 }
-func (instance ResponseUser) GoodUpdate() models.Response {
-	return ResponseBase{}.GoodUpdate("user")
+func (instance ResponseSong) GoodUpdate() models.Response {
+	return ResponseBase{}.GoodUpdate("song")
 }
-func (instance ResponseUser) BadUpdate() models.Response {
-	return ResponseBase{}.BadUpdate("user")
+func (instance ResponseSong) BadUpdate() models.Response {
+	return ResponseBase{}.BadUpdate("song")
 }
-func (instance ResponseUser) GoodDelete() models.Response {
-	return ResponseBase{}.GoodDelete("user")
+func (instance ResponseSong) GoodDelete() models.Response {
+	return ResponseBase{}.GoodDelete("song")
 }
-func (instance ResponseUser) BadDelete() models.Response {
-	return ResponseBase{}.BadDelete("user")
+func (instance ResponseSong) BadDelete() models.Response {
+	return ResponseBase{}.BadDelete("song")
 }
-func (instance ResponseUser) GoodShow(curUser []tables.User) models.Response {
+func (instance ResponseSong) GoodShow(curSong []tables.Song) models.Response {
 	var items []models.Table
-	for i := 0; i < len(curUser); i++ {
-		items = append(items, &curUser[i])
+	for i := 0; i < len(curSong); i++ {
+		items = append(items, &curSong[i])
 	}
-	return ResponseBase{}.GoodShow(items, "user")
+	return ResponseBase{}.GoodShow(items, "song")
 }
-func (instance ResponseUser) BadShow() models.Response {
-	return ResponseBase{}.BadShow("user")
+func (instance ResponseSong) BadShow() models.Response {
+	return ResponseBase{}.BadShow("song")
 }
-func (instance ResponseUser) InternalError() models.Response {
+func (instance ResponseSong) InternalError() models.Response {
 	return ResponseBase{}.InternalError()
 }
 
-func (instance ResponseUser) GetError(c *fiber.Ctx) error {
+func (instance ResponseSong) GetError(c *fiber.Ctx) error {
 	return c.Status(instance.Code).JSON(instance)
 }
 
-func (instance ResponseUser) Validate() bool {
+func (instance ResponseSong) Validate() bool {
 	if instance.Code >= 200 && instance.Code <= 300 {
 		return true
 	}

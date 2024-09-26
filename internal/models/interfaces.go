@@ -1,7 +1,7 @@
 package models
 
 import (
-	"modules/internal/config"
+	"mymod/internal/config"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"modules/internal/app"
-	"modules/internal/config"
-	"modules/internal/database"
+	"mymod/internal/app"
+	"mymod/internal/config"
+	"mymod/internal/database"
 	"os"
 	"os/signal"
 	"syscall"
@@ -15,17 +15,17 @@ import (
 
 func main() {
 	log.SetLevel(log.DebugLevel)
-	log.Debug("log is loaded")
+	log.Info("log is loaded")
 
 	var cfg config.MainConfig
 	cfg.ConfigMustLoad("local")
-	log.Debug("config is loaded")
+	log.Info("config is loaded")
 
 	var PGDB database.PostgresDatabase
 	PGDB.Run(cfg)
 
 	var application app.App
-	go application.NewServer(cfg.Server.Port)
+	go application.NewServer(cfg.Server)
 	log.Debug("server is loaded")
 
 	stop := make(chan os.Signal, 1)

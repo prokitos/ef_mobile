@@ -1,9 +1,8 @@
 package transport
 
 import (
-	"module/internal/models/tables"
-	"modules/internal/models/tables"
-	"modules/internal/services"
+	"mymod/internal/models/tables"
+	"mymod/internal/services"
 
 	"github.com/gofiber/fiber/v2"
 )
