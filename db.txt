@@ -1,0 +1,36 @@
+id:   	      int
+group: 	      string
+song:	      string
+releaseDate:  string
+text:	      lyrics/string		как делать пагинацию по куплетам, если будет просто string?
+link:	      string
+
+id:	 int
+verse:	 string
+
+
+
+
+
+GET
+   query:
+      all_fields
+
+POST
+   body:
+     group
+     song
+   потом обогащение, но отправлять group и song как query.
+     releaseDatr
+     text
+     link
+
+DELETE
+   query:
+      id
+
+PUT
+   query:
+      id
+   body:
+      остальные поля для изменения
