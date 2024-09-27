@@ -16,7 +16,7 @@ type Response interface {
 type Table interface {
 	RecordCreate(DatabaseCore, DatabaseDao) Response
 	RecordDelete(DatabaseCore, DatabaseDao) Response
-	RecordShow(DatabaseCore, DatabaseDao) Response
+	RecordShow(DatabaseCore, DatabaseDao, int, int) Response
 	RecordUpdate(DatabaseCore, DatabaseDao) Response
 }
 type DatabaseCore interface {
@@ -28,5 +28,5 @@ type DatabaseDao interface {
 	CreateData(Table, DatabaseCore) Response
 	DeleteData(Table, DatabaseCore) Response
 	UpdateData(Table, DatabaseCore) Response
-	ShowData(Table, DatabaseCore) Response
+	ShowData(Table, DatabaseCore, int, int) Response
 }

@@ -21,8 +21,8 @@ type Song struct {
 func (instance *Song) RecordCreate(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
 	return dao.CreateData(instance, db)
 }
-func (instance *Song) RecordShow(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
-	err := dao.ShowData(instance, db)
+func (instance *Song) RecordShow(db models.DatabaseCore, dao models.DatabaseDao, limit int, offset int) models.Response {
+	err := dao.ShowData(instance, db, limit, offset)
 	return err
 }
 func (instance *Song) RecordDelete(db models.DatabaseCore, dao models.DatabaseDao) models.Response {
@@ -58,4 +58,20 @@ func (instance *Song) GetBodyParams(c *fiber.Ctx) error {
 		return err
 	}
 	return nil
+}
+
+func (instance *Song) GetLimitOffset(c *fiber.Ctx) (int, int) {
+	tempLimit := c.Query("limit", "")
+	tempOffset := c.Query("offset", "")
+
+	limit, err := strconv.Atoi(tempLimit)
+	if err != nil {
+		limit = 10
+	}
+	offset, err := strconv.Atoi(tempOffset)
+	if err != nil {
+		offset = 0
+	}
+
+	return limit, offset
 }

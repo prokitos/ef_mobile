@@ -2,12 +2,23 @@ id:   	      int
 group: 	      string
 song:	      string
 releaseDate:  string
-text:	      lyrics/string		как делать пагинацию по куплетам, если будет просто string?
+text:	      string		как делать пагинацию по куплетам, если будет просто string?
 link:	      string
 
-id:	 int
-verse:	 string
 
+-----------------------------
+id:   	      int
+group: 	      string
+song:	      string
+releaseDate:  string
+link:	      string
+
+song_id   song 
+id:	  int  
+verse:	  string
+-----------------------------
+/n/n
+-----------------------------
 
 
 
@@ -20,7 +31,7 @@ POST
    body:
      group
      song
-   потом обогащение, но отправлять group и song как query.
+   потом обогащение, но отправлять в external = group и song как query.
      releaseDatr
      text
      link

@@ -35,7 +35,7 @@ func (currentlDB *SongDao) CreateData(data models.Table, core models.DatabaseCor
 		return currentlDB.curResponse().BadCreate()
 	}
 
-	log.Debug("dao complete")
+	log.Info("Create complete")
 	return currentlDB.curResponse().GoodCreate()
 }
 
@@ -58,7 +58,7 @@ func (currentlDB *SongDao) DeleteData(data models.Table, core models.DatabaseCor
 		return currentlDB.curResponse().BadDelete()
 	}
 
-	log.Debug("dao complete")
+	log.Info("Delete complete")
 	return currentlDB.curResponse().GoodDelete()
 }
 
@@ -80,11 +80,11 @@ func (currentlDB *SongDao) UpdateData(data models.Table, core models.DatabaseCor
 		return currentlDB.curResponse().BadUpdate()
 	}
 
-	log.Debug("dao complete")
+	log.Info("Update complete")
 	return currentlDB.curResponse().GoodUpdate()
 }
 
-func (currentlDB *SongDao) ShowData(data models.Table, core models.DatabaseCore) models.Response {
+func (currentlDB *SongDao) ShowData(data models.Table, core models.DatabaseCore, limit int, offset int) models.Response {
 	log.Debug("dao get = ", data)
 
 	song, resp := currentlDB.getData(data)
@@ -98,17 +98,17 @@ func (currentlDB *SongDao) ShowData(data models.Table, core models.DatabaseCore)
 		return currentlDB.curResponse().InternalError()
 	}
 
-	results := dbConnect.Instance.Find(&finded, song)
+	results := dbConnect.Instance.Limit(limit).Offset(offset).Find(&finded, song)
 	if results.Error != nil || results.RowsAffected == 0 {
 		log.Debug("show record error!")
 		return currentlDB.curResponse().BadShow()
 	}
 
-	log.Debug("dao complete")
+	log.Info("Show complete")
 	return currentlDB.curResponse().GoodShow(finded)
 }
 
-// перево интерфейса таблицы в конкретную таблицу
+// перевод интерфейса таблицы в конкретную таблицу
 func (currentlDB *SongDao) getData(temp models.Table) (tables.Song, models.Response) {
 	task, ok := temp.(*tables.Song)
 	if ok == false {
