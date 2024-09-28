@@ -1,0 +1,147 @@
+basePath: /
+definitions:
+  tables.Song:
+    properties:
+      group:
+        example: aria
+        type: string
+      id:
+        type: integer
+      link:
+        example: http://whatever
+        type: string
+      release_date:
+        example: 01.01.2000
+        type: string
+      song:
+        example: some song
+        type: string
+      text:
+        items:
+          $ref: '#/definitions/tables.Verse'
+        type: array
+    type: object
+  tables.Verse:
+    properties:
+      verse:
+        example: first verse
+        type: string
+      verse_id:
+        example: 1
+        type: integer
+    type: object
+host: localhost:8001
+info:
+  contact:
+    email: soberkoder@gmail.com
+    name: API Support
+  description: This is a sample service for managing songs
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Test API
+  version: "1.0"
+paths:
+  /song:
+    delete:
+      consumes:
+      - application/json
+      description: delete Song by id
+      parameters:
+      - description: deleted by id
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+      summary: delete Song
+      tags:
+      - Song
+    get:
+      consumes:
+      - application/json
+      description: get Song by params and offset and limit
+      parameters:
+      - description: Show by id
+        in: query
+        name: id
+        type: string
+      - description: Show by group
+        in: query
+        name: group
+        type: string
+      - description: Show by song
+        in: query
+        name: song
+        type: string
+      - description: Show by release_date
+        in: query
+        name: release_date
+        type: string
+      - description: Show by link
+        in: query
+        name: link
+        type: string
+      - description: Show by offset
+        in: query
+        name: offset
+        type: string
+      - description: Show by limit
+        in: query
+        name: limit
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+      summary: get Song
+      tags:
+      - Song
+    post:
+      consumes:
+      - application/json
+      description: insert Song by body params and erichment
+      parameters:
+      - description: insert song
+        in: body
+        name: orderBook
+        required: true
+        schema:
+          $ref: '#/definitions/tables.Song'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+      summary: insert Song
+      tags:
+      - Song
+    put:
+      consumes:
+      - application/json
+      description: update Song by body params and id
+      parameters:
+      - description: update by id
+        in: query
+        name: id
+        type: string
+      - description: update order
+        in: body
+        name: orderBook
+        required: true
+        schema:
+          $ref: '#/definitions/tables.Song'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+      summary: update Song
+      tags:
+      - Song
+swagger: "2.0"

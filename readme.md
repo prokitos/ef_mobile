@@ -6,6 +6,8 @@
   туда отправляются два query параметра (group и song)
   оттуда принимаются три параметра (release_date, link, text)
 
+Сваггер:
+  http://localhost:8001/swagger/index.html
 
 Пример Post запроса на роут /song
 {

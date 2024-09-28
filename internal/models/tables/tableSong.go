@@ -11,18 +11,18 @@ import (
 // таблица Song. Методы для получения REST данных, а также выполнение команд в нужном DAO. Вызывается из сервисов.
 
 type Song struct {
-	SongId      int     `json:"id" example:"12" gorm:"unique;primaryKey;autoIncrement"`
+	SongId      int     `json:"id,omitempty" gorm:"unique;primaryKey;autoIncrement"`
 	Group       string  `json:"group" example:"aria"`
 	Song        string  `json:"song" example:"some song"`
 	ReleaseDate string  `json:"release_date" example:"01.01.2000"`
 	Link        string  `json:"link" example:"http://whatever"`
-	Text        []Verse `json:"text" example:"" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;foreignKey:OwnerId;references:SongId"`
+	Text        []Verse `json:"text" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;foreignKey:OwnerId;references:SongId"`
 }
 
 type Verse struct {
 	OwnerId   int64  `json:"-" example:"" gorm:"primaryKey;autoIncrement"`
-	VerseId   int    `json:"verse_id" example:"" gorm:"primaryKey"`
-	VerseText string `json:"verse" example:""`
+	VerseId   int    `json:"verse_id" example:"1" gorm:"primaryKey"`
+	VerseText string `json:"verse" example:"first verse"`
 }
 
 // таблица для получения данных из внешнего сервера
@@ -66,7 +66,7 @@ func (instance *Song) GetQueryParams(c *fiber.Ctx) error {
 	instance.ReleaseDate = c.Query("release_date", "")
 	instance.Link = c.Query("link", "")
 
-	log.Debug("get Query is = ", instance)
+	log.Debug("get query param = ", instance)
 	return nil
 }
 
@@ -75,7 +75,7 @@ func (instance *Song) GetBodyParams(c *fiber.Ctx) error {
 		return err
 	}
 
-	log.Debug("get Body is = ", instance)
+	log.Debug("get body param = ", instance)
 	return nil
 }
 
@@ -104,7 +104,7 @@ func (instance *Song) GetSettings(c *fiber.Ctx) models.TableSettings {
 	setting.Offset = offset
 	setting.VerseId = verse
 
-	log.Debug("settings is = ", setting)
+	log.Debug("get settings param = ", instance)
 	return setting
 }
 

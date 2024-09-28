@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"io/ioutil"
+	"mymod/internal/models/responses"
 	"mymod/internal/models/tables"
 	"net"
 	"net/http"
@@ -10,15 +11,19 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gofiber/fiber/v2/log"
+	log "github.com/sirupsen/logrus"
 )
 
 var SongExternalAddress string
 
-// получение данных из внешнего сервера, и разделение текста на части
+// получение данных из внешнего сервера, и разделение текста на части.
+// если проблема на сервере, то не будем брать новые данные вообще
 func EnrichtSong(song tables.Song) tables.Song {
 
-	tempSong := sendRequestToGet(song.Group, song.Song)
+	tempSong, err := sendRequestToGet(song.Group, song.Song)
+	if err != nil {
+		return song
+	}
 
 	allText := strings.Split(tempSong.Text, "\n\n")
 	for iter, item := range allText {
@@ -35,7 +40,7 @@ func EnrichtSong(song tables.Song) tables.Song {
 }
 
 // получение данных из внешнего сервера по роуту /info
-func sendRequestToGet(group string, song string) tables.ExternalSong {
+func sendRequestToGet(group string, song string) (tables.ExternalSong, error) {
 
 	baseURL, _ := url.Parse(SongExternalAddress + "/info")
 	params := url.Values{}
@@ -53,12 +58,12 @@ func sendRequestToGet(group string, song string) tables.ExternalSong {
 
 		if err, ok := err.(net.Error); ok && err.Timeout() {
 			log.Error("timeout request !!")
-			return tables.ExternalSong{}
+			return tables.ExternalSong{}, responses.ResponseBase{}.BaseExternalError()
 		}
 
 		log.Debug("Error connecting to external api")
 		log.Error("Error getting data from api")
-		return tables.ExternalSong{}
+		return tables.ExternalSong{}, responses.ResponseBase{}.BaseExternalError()
 	}
 	defer resp.Body.Close()
 
@@ -66,5 +71,5 @@ func sendRequestToGet(group string, song string) tables.ExternalSong {
 
 	var carExemp tables.ExternalSong
 	json.Unmarshal(body, &carExemp)
-	return carExemp
+	return carExemp, nil
 }

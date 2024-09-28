@@ -1,0 +1,220 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample service for managing songs",
+        "title": "Test API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "email": "soberkoder@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8001",
+    "basePath": "/",
+    "paths": {
+        "/song": {
+            "get": {
+                "description": "get Song by params and offset and limit",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song"
+                ],
+                "summary": "get Song",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Show by id",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Show by group",
+                        "name": "group",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Show by song",
+                        "name": "song",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Show by release_date",
+                        "name": "release_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Show by link",
+                        "name": "link",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Show by offset",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Show by limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "put": {
+                "description": "update Song by body params and id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song"
+                ],
+                "summary": "update Song",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "update by id",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "description": "update order",
+                        "name": "orderBook",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/tables.Song"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "post": {
+                "description": "insert Song by body params and erichment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song"
+                ],
+                "summary": "insert Song",
+                "parameters": [
+                    {
+                        "description": "insert song",
+                        "name": "orderBook",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/tables.Song"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete Song by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song"
+                ],
+                "summary": "delete Song",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "deleted by id",
+                        "name": "id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "tables.Song": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "type": "string",
+                    "example": "aria"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "link": {
+                    "type": "string",
+                    "example": "http://whatever"
+                },
+                "release_date": {
+                    "type": "string",
+                    "example": "01.01.2000"
+                },
+                "song": {
+                    "type": "string",
+                    "example": "some song"
+                },
+                "text": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/tables.Verse"
+                    }
+                }
+            }
+        },
+        "tables.Verse": {
+            "type": "object",
+            "properties": {
+                "verse": {
+                    "type": "string",
+                    "example": "first verse"
+                },
+                "verse_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        }
+    }
+}

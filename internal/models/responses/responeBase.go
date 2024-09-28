@@ -90,3 +90,7 @@ func (instance ResponseBase) BaseServerError() error {
 	result := "Code:400; Description: Internal Error"
 	return errors.New(result)
 }
+func (instance ResponseBase) BaseExternalError() error {
+	result := "Code:400; Description: External Server Error"
+	return errors.New(result)
+}
