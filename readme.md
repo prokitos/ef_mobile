@@ -30,8 +30,9 @@ id = 1
 }
 
 Пример Get запроса на роут /song
+id = 1
 limit = 1
-offset = 1
+verse = 1
 
 Пример Delete запроса на роут /song
 id = 1
