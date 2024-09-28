@@ -16,8 +16,14 @@ type Response interface {
 type Table interface {
 	RecordCreate(DatabaseCore, DatabaseDao) Response
 	RecordDelete(DatabaseCore, DatabaseDao) Response
-	RecordShow(DatabaseCore, DatabaseDao, int, int) Response
+	RecordShow(DatabaseCore, DatabaseDao, TableSettings) Response
 	RecordUpdate(DatabaseCore, DatabaseDao) Response
+}
+
+type TableSettings interface {
+	GetLimit() int
+	GetOffset() int
+	GetSpecData() int
 }
 type DatabaseCore interface {
 	OpenConnection(config.MainConfig)
@@ -28,5 +34,5 @@ type DatabaseDao interface {
 	CreateData(Table, DatabaseCore) Response
 	DeleteData(Table, DatabaseCore) Response
 	UpdateData(Table, DatabaseCore) Response
-	ShowData(Table, DatabaseCore, int, int) Response
+	ShowData(Table, DatabaseCore, TableSettings) Response
 }

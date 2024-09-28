@@ -11,9 +11,9 @@ func getSong(c *fiber.Ctx) error {
 	var curSong tables.Song
 	curSong.GetQueryId(c)
 	curSong.GetQueryParams(c)
-	limit, offset := curSong.GetLimitOffset(c)
+	settings := curSong.GetSettings(c)
 
-	return services.SongShow(curSong, limit, offset).GetError(c)
+	return services.SongShow(curSong, settings).GetError(c)
 }
 
 func insertSong(c *fiber.Ctx) error {

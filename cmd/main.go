@@ -4,6 +4,7 @@ import (
 	"mymod/internal/app"
 	"mymod/internal/config"
 	"mymod/internal/database"
+	"mymod/internal/services"
 	"os"
 	"os/signal"
 	"syscall"
@@ -19,14 +20,16 @@ func main() {
 
 	var cfg config.MainConfig
 	cfg.ConfigMustLoad("local")
+	services.SongExternalAddress = cfg.External
 	log.Info("config is loaded")
 
 	var PGDB database.PostgresDatabase
 	PGDB.Run(cfg)
+	log.Info("database is loaded")
 
 	var application app.App
 	go application.NewServer(cfg.Server)
-	log.Debug("server is loaded")
+	log.Info("server is loaded")
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)

@@ -12,24 +12,29 @@ import (
 // вызов метода внутри соответствующей таблицы, и отправка туда нужного коннекта и дао.
 
 func SongInsert(instance tables.Song) models.Response {
-	log.Debug("services get = ", instance)
+	log.Debug("services layer get = ", instance)
 
-	EnrichtSong()
+	// отправка в сервис обогащения данных
+	instance = EnrichtSong(instance)
+	log.Debug("after Enricht = ", instance)
 
-	return instance.RecordCreate(database.GlobalPostgres, dao.GlobalSongDao)
+	return instance.RecordCreate(database.GlobalPostgres, &dao.SongDao{})
 }
 
-func SongShow(instance tables.Song, limit int, offset int) models.Response {
-	log.Debug("services get = ", instance)
-	return instance.RecordShow(database.GlobalPostgres, dao.GlobalSongDao, limit, offset)
+func SongShow(instance tables.Song, settings models.TableSettings) models.Response {
+	log.Debug("services layer get = ", instance)
+
+	return instance.RecordShow(database.GlobalPostgres, &dao.SongDao{}, settings)
 }
 
 func SongUpdate(instance tables.Song) models.Response {
-	log.Debug("services get = ", instance)
-	return instance.RecordUpdate(database.GlobalPostgres, dao.GlobalSongDao)
+	log.Debug("services layer get = ", instance)
+
+	return instance.RecordUpdate(database.GlobalPostgres, &dao.SongDao{})
 }
 
 func SongDelete(instance tables.Song) models.Response {
-	log.Debug("services get = ", instance)
-	return instance.RecordDelete(database.GlobalPostgres, dao.GlobalSongDao)
+	log.Debug("services layer get = ", instance)
+
+	return instance.RecordDelete(database.GlobalPostgres, &dao.SongDao{})
 }

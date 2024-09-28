@@ -11,9 +11,3 @@ var GlobalPostgres *PostgresDatabase
 type PostgresDatabase struct {
 	Instance *gorm.DB
 }
-
-func CheckError(err error) {
-	if err != nil {
-		panic(err)
-	}
-}

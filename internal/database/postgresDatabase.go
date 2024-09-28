@@ -20,6 +20,7 @@ func (currentlDB *PostgresDatabase) Run(config config.MainConfig) {
 }
 
 func (currentlDB *PostgresDatabase) StartMigration() {
+	currentlDB.Instance.AutoMigrate(tables.Verse{})
 	currentlDB.Instance.AutoMigrate(tables.Song{})
 	log.Debug("migration complete")
 }
@@ -80,6 +81,7 @@ func (currentlDB *PostgresDatabase) checkDatabaseCreated(config config.MainConfi
 	return nil
 }
 
+// добавить экземпляр базы данных в глобальную переменную
 func (currentlDB *PostgresDatabase) GlobalSet() {
 	GlobalPostgres = currentlDB
 }
