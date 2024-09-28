@@ -4,6 +4,7 @@ import (
 	"mymod/internal/database"
 	"mymod/internal/database/dao"
 	"mymod/internal/models"
+	"mymod/internal/models/responses"
 	"mymod/internal/models/tables"
 
 	log "github.com/sirupsen/logrus"
@@ -15,7 +16,11 @@ func SongInsert(instance tables.Song) models.Response {
 	log.Debug("services layer get = ", instance)
 
 	// отправка в сервис обогащения данных
-	instance = EnrichtSong(instance)
+	instance, err := EnrichtSong(instance)
+	// можно убрать, если мы хотим чтобы insert работал без доступа к внешнему серверу
+	if err != nil {
+		return responses.ResponseSong{}.ExternalError()
+	}
 	log.Debug("after Enricht = ", instance)
 
 	return instance.RecordCreate(database.GlobalPostgres, &dao.SongDao{})

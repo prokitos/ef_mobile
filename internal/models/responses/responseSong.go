@@ -46,6 +46,9 @@ func (instance ResponseSong) BadShow() models.Response {
 func (instance ResponseSong) InternalError() models.Response {
 	return ResponseBase{}.InternalError()
 }
+func (instance ResponseSong) ExternalError() models.Response {
+	return ResponseBase{}.ExternalError()
+}
 
 func (instance ResponseSong) GetError(c *fiber.Ctx) error {
 	return c.Status(instance.Code).JSON(instance)

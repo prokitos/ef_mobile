@@ -18,11 +18,11 @@ var SongExternalAddress string
 
 // получение данных из внешнего сервера, и разделение текста на части.
 // если проблема на сервере, то не будем брать новые данные вообще
-func EnrichtSong(song tables.Song) tables.Song {
+func EnrichtSong(song tables.Song) (tables.Song, error) {
 
 	tempSong, err := sendRequestToGet(song.Group, song.Song)
 	if err != nil {
-		return song
+		return song, err
 	}
 
 	allText := strings.Split(tempSong.Text, "\n\n")
@@ -36,7 +36,7 @@ func EnrichtSong(song tables.Song) tables.Song {
 	song.ReleaseDate = tempSong.ReleaseDate
 	song.Link = tempSong.Link
 
-	return song
+	return song, nil
 }
 
 // получение данных из внешнего сервера по роуту /info

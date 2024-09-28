@@ -69,6 +69,12 @@ func (instance ResponseBase) InternalError() models.Response {
 	instance.Data = nil
 	return instance.GetResponse()
 }
+func (instance ResponseBase) ExternalError() models.Response {
+	instance.Code = 400
+	instance.Description = "external server error"
+	instance.Data = nil
+	return instance.GetResponse()
+}
 
 func (instance ResponseBase) GetError(c *fiber.Ctx) error {
 	return c.Status(instance.Code).JSON(instance)
