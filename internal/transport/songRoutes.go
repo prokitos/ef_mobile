@@ -20,6 +20,7 @@ import (
 // @Param link query string false "Show by link"
 // @Param offset query string false "Show by offset"
 // @Param limit query string false "Show by limit"
+// @Param verse query string false "Show by verse"
 // @Success 200 "successful operation"
 // @Router /song [get]
 func getSong(c *fiber.Ctx) error {

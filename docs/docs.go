@@ -78,6 +78,12 @@ const docTemplate = `{
                         "description": "Show by limit",
                         "name": "limit",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Show by verse",
+                        "name": "verse",
+                        "in": "query"
                     }
                 ],
                 "responses": {

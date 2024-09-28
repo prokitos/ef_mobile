@@ -94,6 +94,10 @@ paths:
         in: query
         name: limit
         type: string
+      - description: Show by verse
+        in: query
+        name: verse
+        type: string
       produces:
       - application/json
       responses:
