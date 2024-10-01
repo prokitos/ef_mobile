@@ -69,7 +69,7 @@ func sendRequestToGet(group string, song string) (tables.ExternalSong, error) {
 
 	body, _ := ioutil.ReadAll(resp.Body)
 
-	var carExemp tables.ExternalSong
-	json.Unmarshal(body, &carExemp)
-	return carExemp, nil
+	var songExemp tables.ExternalSong
+	json.Unmarshal(body, &songExemp)
+	return songExemp, nil
 }
